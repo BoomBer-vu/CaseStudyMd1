@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý sản phẩm - ShoeTrack</title>
+  <style>
+
+    tr {
+      height: 50px;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #f4f4f4;
+    }
+
+    td {
+      text-align: center;
+      width: 200px;
+    }
+
+    button {
+      background-color: green;
+      color: white;
+      width: 70px;
+      height: 30px;
+      border: none;
+      border-radius: 5%;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+
+    img {
+      width: 100px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="https://wsu.vn/wp-content/uploads/2023/06/xmauwesitebanhang-1-700x525.png.pagespeed.ic.PecKCZnsRd.webp" alt="ShoeTrack-WSU" style="width: 1310px; height: 300px;">
+</header>
+
+<h3 style="text-align:center; color:green; " >QUẢN LÝ SẢN PHẨM - SHOETRACK - WSU</h3>
+
+<div style="width: 610px; height: 100px; background-color: #f4f4f4;">
+  <div style="padding-top: 10px; padding-left: 40px">
+    <input type="text" id="productSearch" placeholder="Tìm kiếm sản phẩm" style="width: 300px; height: 30px">
+    <button id="search">Search</button>
+
+    <input type="text" id="productAdd" placeholder="Thêm sản phẩm (ID, Tên, Giá, Hãng, Mô tả, Hình ảnh URL)" style="margin-top:5px; width: 300px; height: 30px">
+    <button id="add">Add</button>
+  </div>
+</div>
+<div id="result"></div>
+
+<script>
+  class Product {
+    id;
+    name;
+    price;
+    brand;
+    description;
+    imageUrl;
+
+    constructor(id, name, price, brand, description, imageUrl) {
+      this.id = id;
+      this.name = name;
+      this.price = price;
+      this.brand = brand;
+      this.description = description;
+      this.imageUrl = imageUrl;
+    }
+  }
+
+  let products = [];
+  products.push(new Product(1, "Giày Adidas Samba OG Cloud White Core Black Like Auth", 750000, "Adidas", "Giày chạy bộ chất lượng cao, được làm từ chất liệu thoáng khí và đế cao su bền bỉ", "https://tyhisneaker.com/wp-content/uploads/2024/01/https-youtubecomshorts-jcdgqxoxhc.webp"));
+  products.push(new Product(2, "Giày Louis Vuitton x Travis Scott x Nike Air Jordan 1 Low OG Like Auth", 2500000, "Nike", "Có da mềm mại với thiết kế tối giản, tạo cảm giác thoải mái và thanh lịch", "https://tyhisneaker.com/wp-content/uploads/2024/09/thiet-ke-chua-co-ten.png"));
+  products.push(new Product(3, "Giày Nike Air Jordan 1 Low ‘Phantom’ FZ5045-091 Like Auth", 850000, "Nike", "Được trang trí họa tiết độc đáo, mang đến sự nổi bật và phong cách cá nhân cho người mang", "https://tyhisneaker.com/wp-content/uploads/2024/06/giay-nike-air-jordan-1-low-phantom-fz5045-091-like-auth.jpg"));
+  products.push(new Product(4, "Giày MLB Chunky Liner Mid Monogram NY Yankees Black 3ASXCMM4N-50BKS", 850000, "MLB", "Giày cao cổ thời thượng, kết hợp giữa phong cách thể thao và xu hướng hiện đại", "https://tyhisneaker.com/wp-content/uploads/2024/03/giay-mlb-chunky-liner-mid-monogram-ny-yankees-black-3asxcmm4n-50bks.webp"));
+  products.push(new Product(5, "Giày LV Trainer Monogram Orange Denim 1A9ZC2 Chuẩn Auth VIP", 3600000, "Luxury", "Có thời trang với phối màu bắt mắt, lý tưởng cho những dịp đi chơi và dạo phố", "https://tyhisneaker.com/wp-content/uploads/2024/02/trainer-monogram-orange-denim.jpg"));
+
+  function display(products) {
+    let result = "<table>";
+    result += "<tr><th>ID</th><th>Image</th><th>Name</th><th>Price</th><th>Brand</th><th>Description</th><th>Option</th></tr>";
+    for (let i = 0; i < products.length; i++) {
+      result += "<tr>"
+      result +=  `<td>${products[i].id}</td>`
+      result +=  `<td><img src="${products[i].imageUrl}" alt="${products[i].name}"></td>`
+      result +=  `<td>${products[i].name}</td>`
+      result +=  `<td>${products[i].price}</td>`
+      result +=  `<td>${products[i].brand}</td>`
+      result +=  `<td>${products[i].description}</td>`
+      result +=  `<td>
+                  <button onclick="editProduct(${i})">Edit</button>
+                  <button onclick="deleteProduct(${i})">Delete</button>
+                </td>`
+      result +="</tr>";
+    }
+    result += "</table>";
+    document.getElementById("result").innerHTML = result;
+  }
+
+  function deleteProduct(index) {
+    let isDelete = confirm(`Bạn có chắc muốn xóa sản phẩm ${products[index].name}?`);
+    if (isDelete) {
+      products.splice(index, 1);
+      display(products);
+      alert("Xóa thành công");
+    }
+  }
+
+  function editProduct(index) {
+    let newName = prompt("Nhập tên mới:", products[index].name);
+    let newPrice = prompt("Nhập giá mới:", products[index].price);
+    let newBrand = prompt("Nhập hãng mới:", products[index].brand);
+    let newDescription = prompt("Nhập mô tả mới:", products[index].description);
+    let newImageUrl = prompt("Nhập URL hình ảnh mới:", products[index].imageUrl);
+
+    if (newName && newPrice && newBrand && newDescription && newImageUrl) {
+      products[index].name = newName;
+      products[index].price = newPrice;
+      products[index].brand = newBrand;
+      products[index].description = newDescription;
+      products[index].imageUrl = newImageUrl;
+      display(products);
+      alert("Sửa thông tin thành công");
+    } else {
+      alert("Thông tin không hợp lệ");
+    }
+  }
+
+  document.getElementById("add").addEventListener("click", function () {
+    let productAdd = document.getElementById("productAdd").value;
+    let productData = productAdd.split(",");
+
+    if (productData.length === 6) {
+      let newProduct = new Product(productData[0], productData[1], productData[2], productData[3], productData[4], productData[5]);
+      products.push(newProduct);
+      display(products);
+      document.getElementById("productAdd").value = "";
+      alert("Thêm sản phẩm thành công");
+    } else {
+      alert("Thông tin sản phẩm phải đúng định dạng: ID, Tên, Giá, Hãng, Mô tả, URL hình ảnh");
+    }
+  });
+
+  document.getElementById("search").addEventListener("click", function () {
+    let productSearch = document.getElementById("productSearch").value;
+    let result = products.filter(product => product.name.includes(productSearch));
+    display(result);
+  });
+
+  display(products);
+</script>
+</body>
+</html>

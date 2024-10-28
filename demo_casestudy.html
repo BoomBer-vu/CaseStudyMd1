@@ -137,7 +137,7 @@
     let productData = productAdd.split(",");
 
     if (productData.length === 6) {
-      let newProduct = new Product(productData[0], productData[1], productData[2], productData[3], productData[4], productData[5]);
+      let newProduct = new Product(productData[0], productData[1], productData[2], productData[3], productData[4], productData[5], productAdd[6]);
       products.push(newProduct);
       display(products);
       document.getElementById("productAdd").value = "";
